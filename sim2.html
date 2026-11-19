@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MY AWESOME PORTFOLIO + ELA CHEAT-CODE LAB ⚡🌋</title>
+
+  <!-- Playful Elementary-School-Doodle & Arcade Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Comic+Neue:ital,wght@0,700;1,700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tone.js for Thunder & Arcade Sound Effects (No external MP3 URLs needed!) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+  <style>
+    /* =====================================================================
+       1. USER FAVORITE COLOR PALETTE & THEME VARIABLES
+       ===================================================================== */
+    :root {
+      --purple: #8b16e9;
+      --lime: #9eca35;
+      --violet: #af12ed;
+      --pink: #ee117b;
+      --mint: #10ef83;
+      --ink: #14101d;
+      --paper: #fffdf5;
+      --grid-line: rgba(139, 22, 233, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      /* Notebook / Graph-paper elementary school background texture */
+      background-image:
+        linear-gradient(to right, var(--grid-line) 2px, transparent 2px),
+        linear-gradient(to bottom, var(--grid-line) 2px, transparent 2px),
+        radial-gradient(circle at 15% 20%, rgba(16, 239, 131, 0.16), transparent 35%),
+        radial-gradient(circle at 85% 75%, rgba(238, 17, 123, 0.16), transparent 35%);
+      background-size: 36px 36px, 36px 36px, 100% 100%, 100% 100%;
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
+
+    /* =====================================================================
+       2. FULL-SCREEN THUNDER & ROAMING CORNER LAVA CANVAS
+       ===================================================================== */
+    #fx-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 45;
+    }
+
+    #lightning-flash {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, rgba(16, 239, 131, 0.35), rgba(175, 18, 237, 0.25));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 44;
+      transition: opacity 0.08s ease-out;
+    }
+
+    /* =====================================================================
+       3. STICKY EVERYDAY HOT BAR (TRAPPER-KEEPER CONTROL DOCK)
+       ===================================================================== */
+    .hotbar-wrap {
+      position: sticky;
+      top: 12px;
+      z-index: 60;
+      padding: 0 14px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hotbar {
+      background: var(--ink);
+      border: 4px solid var(--mint);
+      border-radius: 26px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 0 var(--purple), 0 14px 28px rgba(0, 0, 0, 0.35);
+      max-width: 1050px;
+      width: 100%;
+    }
+
+    .hotbar-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 8px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 3px 3px 0 #000;
+      transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s;
+      user-select: none;
+    }
+
+    .hotbar-btn:hover {
+      transform: translateY(-3px) rotate(-1.5deg) scale(1.04);
+      box-shadow: 5px 6px 0 #000;
+    }
+
+    .hotbar-btn:active {
+      transform: translateY(2px);
+      box-shadow: 1px 1px 0 #000;
+    }
+
+    .hb-projects { background: var(--lime); }
+    .hb-ela      { background: var(--pink); color: #fff; }
+    .hb-thunder  { background: var(--mint); }
+    .hb-lava     { background: var(--violet); color: #fff; }
+    .hb-sound    { background: #ffe600; }
+
+    /* =====================================================================
+       4. MAIN PAGE CONTAINER & HERO BANNER
+       ===================================================================== */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--violet) 50%, var(--pink) 100%);
+      border: 5px solid var(--ink);
+      border-radius: 34px;
+      padding: 32px 26px;
+      color: #fff;
+      box-shadow: 10px 10px 0 var(--ink);
+      position: relative;
+      margin-bottom: 36px;
+      transform: rotate(-0.5deg);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: 'Bungee', cursive;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      box-shadow: 4px 4px 0 var(--ink);
+      transform: rotate(-2deg);
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(1.9rem, 4.5vw, 3.3rem);
+      line-height: 1.1;
+      text-shadow: 4px 4px 0 var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      font-weight: 600;
+      max-width: 720px;
+      background: rgba(20, 16, 29, 0.35);
+      padding: 12px 16px;
+      border-radius: 18px;
+      border: 2px dashed var(--mint);
+    }
+
+    /* =====================================================================
+       5. SUPER-SIMPLE PROJECT CARDS (COPY-PASTE FRIENDLY!)
+       Just duplicating:
+       <a class="card" href="./project-1.html" target="_blank">
+         <h3>Project Title</h3>
+       </a>
+       automatically creates a styled card!
+       ===================================================================== */
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      background: var(--mint);
+      color: var(--ink);
+      border: 4px solid var(--ink);
+      border-radius: 22px;
+      padding: 10px 20px;
+      box-shadow: 6px 6px 0 var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transform: rotate(0.6deg);
+    }
+
+    .helper-pill-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      background: var(--purple);
+      color: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 10px 16px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.15s;
+    }
+
+    .helper-pill-btn:hover {
+      transform: scale(1.05) rotate(-1deg);
+      background: var(--pink);
+    }
+
+    /* THE PROJECT GRID */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    /* SUPER SIMPLE .card STYLING — WORKS WITH JUST <a><h3>Title</h3></a> */
+    .projects-grid .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 185px;
+      padding: 22px 20px;
+      border: 4px solid var(--ink);
+      border-radius: 28px;
+      text-decoration: none;
+      color: var(--ink);
+      background: var(--lime);
+      box-shadow: 8px 8px 0 var(--ink);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+      overflow: hidden;
+    }
+
+    /* Cycle through user's 5 favorite colors automatically! */
+    .projects-grid .card:nth-child(5n+1) { background: var(--lime); transform: rotate(-1.2deg); }
+    .projects-grid .card:nth-child(5n+2) { background: var(--mint); transform: rotate(1.1deg); }
+    .projects-grid .card:nth-child(5n+3) { background: var(--pink); color: #fff; transform: rotate(-0.8deg); }
+    .projects-grid .card:nth-child(5n+4) { background: var(--purple); color: #fff; transform: rotate(1.4deg); }
+    .projects-grid .card:nth-child(5n+5) { background: var(--violet); color: #fff; transform: rotate(-1deg); }
+
+    /* Automatic fun doodle sticker icon on every simple card! */
+    .projects-grid .card::before {
+      content: "🚀";
+      font-size: 2.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      box-shadow: 3px 3px 0 var(--ink);
+      margin-bottom: 14px;
+    }
+
+    .projects-grid .card:nth-child(5n+2)::before { content: "🎮"; }
+    .projects-grid .card:nth-child(5n+3)::before { content: "⚡"; }
+    .projects-grid .card:nth-child(5n+4)::before { content: "🌋"; }
+    .projects-grid .card:nth-child(5n+5)::before { content: "👾"; }
+
+    /* Automatic "CLICK TO OPEN" badge on every simple card! */
+    .projects-grid .card::after {
+      content: "OPEN PROJECT ➔";
+      align-self: flex-start;
+      margin-top: 14px;
+      font-family: 'Bungee', cursive;
+      font-size: 0.75rem;
+      background: var(--ink);
+      color: var(--mint);
+      padding: 6px 12px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .projects-grid .card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.45rem;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .projects-grid .card:hover {
+      transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
+      box-shadow: 12px 14px 0 var(--ink), 0 0 24px var(--violet);
+      z-index: 5;
+    }
+
+    /* Optional collapsible helper box to generate copy-paste HTML */
+    .card-generator-box {
+      display: none;
+      background: #fff;
+      border: 4px solid var(--ink);
+      border-radius: 26px;
+      padding: 20px;
+      margin-bottom: 26px;
+      box-shadow: 8px 8px 0 var(--purple);
+    }
+
+    .card-generator-box.open {
+      display: block;
+      animation: popIn 0.25s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* =====================================================================
+       6. ELA SURVIVAL LAB: THE ANTHROPOCENE REVIEWED
+       ===================================================================== */
+    .ela-lab {
+      background: #ffffff;
+      border: 5px solid var(--ink);
+      border-radius: 36px;
+      padding: 28px 22px;
+      box-shadow: 12px 12px 0 var(--pink);
+      position: relative;
+    }
+
+    .ela-banner {
+      background: linear-gradient(90deg, var(--ink) 0%, #2a1447 100%);
+      color: #fff;
+      border: 4px solid var(--ink);
+      border-radius: 26px;
+      padding: 22px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .ela-banner h2 {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--mint);
+      text-shadow: 3px 3px 0 var(--pink);
+      margin-bottom: 6px;
+    }
+
+    .ela-banner p {
+      font-size: 1.05rem;
+      color: #f3e8ff;
+    }
+
+    /* Navigation Tabs inside ELA Lab */
+    .ela-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .ela-tab {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 18px;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      background: #f3f0ff;
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: all 0.15s;
+    }
+
+    .ela-tab:hover {
+      transform: translateY(-2px);
+      background: var(--lime);
+    }
+
+    .ela-tab.active {
+      background: var(--purple);
+      color: #fff;
+      transform: translateY(-3px) rotate(-1deg);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: popIn 0.22s ease-out;
+    }
+
+    /* Plot / Structure Cards */
+    .arc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .arc-step {
+      border: 4px solid var(--ink);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 6px 6px 0 var(--ink);
+      position: relative;
+    }
+
+    .arc-step:nth-child(1) { background: #e9ffd6; }
+    .arc-step:nth-child(2) { background: #ffe0f0; }
+    .arc-step:nth-child(3) { background: #efe0ff; }
+    .arc-step:nth-child(4) { background: #d6fff0; }
+
+    .step-num {
+      font-family: 'Bungee', cursive;
+      font-size: 0.85rem;
+      background: var(--ink);
+      color: var(--lime);
+      padding: 4px 12px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* Essay Explorer Cards */
+    .essay-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 18px;
+    }
+
+    .essay-card {
+      background: #fffdf9;
+      border: 4px solid var(--ink);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 6px 6px 0 var(--violet);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .star-badge {
+      display: inline-block;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .user-rate-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 2px dashed #ccc;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .rate-star-btn {
+      background: none;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.12s;
+    }
+
+    .rate-star-btn:hover {
+      transform: scale(1.3);
+    }
+
+    /* Theme & Quote Cards */
+    .theme-card {
+      border: 4px solid var(--ink);
+      border-radius: 24px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 6px 6px 0 var(--ink);
+      background: #faf5ff;
+    }
+
+    .quote-box {
+      background: var(--ink);
+      color: var(--mint);
+      padding: 14px 16px;
+      border-radius: 16px;
+      margin-top: 12px;
+      font-style: italic;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Character Chat Arena */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 820px) {
+      .chat-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .char-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .char-btn {
+      text-align: left;
+      padding: 14px;
+      border: 3px solid var(--ink);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.15s, background 0.15s;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .char-btn:hover {
+      transform: translateX(4px);
+      background: #f0ffd4;
+    }
+
+    .char-btn.selected {
+      background: var(--mint);
+      transform: scale(1.02);
+      box-shadow: 6px 6px 0 var(--purple);
+    }
+
+    .chat-window {
+      border: 4px solid var(--ink);
+      border-radius: 26px;
+      background: #f8f5ff;
+      display: flex;
+      flex-direction: column;
+      height: 490px;
+      overflow: hidden;
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+
+    .chat-top {
+      background: var(--purple);
+      color: #fff;
+      padding: 14px 18px;
+      border-bottom: 4px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 12px 16px;
+      border: 3px solid var(--ink);
+      border-radius: 20px;
+      font-size: 1rem;
+      line-height: 1.4;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: #fff;
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--lime);
+      border-bottom-right-radius: 4px;
+    }
+
+    .quick-prompts {
+      padding: 8px 12px;
+      background: #eee4ff;
+      border-top: 2px dashed var(--purple);
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .chip-btn {
+      white-space: nowrap;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .chip-btn:hover {
+      background: var(--pink);
+      color: #fff;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+      padding: 12px;
+      background: #fff;
+      border-top: 4px solid var(--ink);
+    }
+
+    .chat-input {
+      flex: 1;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      padding: 10px 14px;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: var(--pink);
+      background: #fff9fc;
+    }
+
+    .send-btn {
+      font-family: 'Bungee', cursive;
+      font-size: 0.95rem;
+      background: var(--pink);
+      color: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 10px 18px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .send-btn:hover {
+      background: var(--violet);
+    }
+
+    /* Quiz Styling */
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.12s, background 0.12s;
+    }
+
+    .quiz-option:hover {
+      transform: translateX(6px);
+      background: var(--mint);
+    }
+
+    /* Toast Notification (Replaces alert() cleanly) */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: var(--ink);
+      color: var(--mint);
+      border: 4px solid var(--pink);
+      border-radius: 20px;
+      padding: 12px 22px;
+      font-family: 'Bungee', cursive;
+      font-size: 0.9rem;
+      box-shadow: 6px 6px 0 var(--purple);
+      z-index: 100;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      text-align: center;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Roaming Corner Lava & Thunder Canvas Overlay -->
+  <canvas id="fx-canvas"></canvas>
+  <div id="lightning-flash"></div>
+
+  <!-- Custom Toast Notification -->
+  <div id="toast">COPIED TO CLIPBOARD! ⚡</div>
+
+  <!-- =====================================================================
+       EVERYDAY HOT BAR (STICKY QUICK NAVIGATION & FX CONTROLS)
+       ===================================================================== -->
+  <div class="hotbar-wrap">
+    <nav class="hotbar" aria-label="Everyday Hot Bar">
+      <a href="#projects-section" class="hotbar-btn hb-projects">🚀 My Projects</a>
+      <a href="#ela-section" class="hotbar-btn hb-ela">📚 ELA: Anthropocene Lab</a>
+      <button type="button" class="hotbar-btn hb-thunder" id="btnZapThunder">⚡ Summon Thunder</button>
+      <button type="button" class="hotbar-btn hb-lava" id="btnToggleLava">🌋 Corner Lava: ON</button>
+      <button type="button" class="hotbar-btn hb-sound" id="btnToggleSound">🔇 Sound FX: OFF</button>
+    </nav>
+  </div>
+
+  <main class="container">
+
+    <!-- =====================================================================
+         HERO SECTION
+         ===================================================================== -->
+    <header class="hero-card">
+      <div class="hero-badge">★ OFFICIAL PORTFOLIO &amp; SCHOOL SURVIVAL HQ ★</div>
+      <h1 class="hero-title">WELCOME TO MY EPIC ZONE!</h1>
+      <p class="hero-sub">
+        Zero boring corporate stuff allowed. Click any project card below, summon lightning bolts, or use my interactive <strong>ELA Cheat-Code Lab</strong> so you don't even have to suffer through reading!
+      </p>
+    </header>
+
+    <!-- =====================================================================
+         SECTION 1: SUPER-SIMPLE COPY-PASTE PROJECT CARDS
+         ===================================================================== -->
+    <section id="projects-section">
+      <div class="section-header">
+        <h2 class="section-title">🎨 MY PROJECTS</h2>
+        <button type="button" class="helper-pill-btn" id="btnToggleGenerator">
+          ➕ Make Copy-Paste Card Code
+        </button>
+      </div>
+
+      <!-- Optional Helper to generate HTML snippet if the user wants -->
+      <div class="card-generator-box" id="cardGeneratorBox">
+        <h3 style="margin-bottom: 10px; font-size: 1.2rem;">🛠️ Super-Easy Card Code Maker (Paste into GitHub!)</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <input type="text" id="genTitle" class="chat-input" placeholder="Project Name (e.g. Slime Clicker)" value="My Awesome Game" />
+          <input type="text" id="genHref" class="chat-input" placeholder="File link (e.g. ./project-3.html)" value="./project-3.html" />
+          <button type="button" class="send-btn" id="btnCopySnippet">📋 Copy HTML Block</button>
+        </div>
+        <pre id="snippetPreview" style="background: #14101d; color: #10ef83; padding: 12px; border-radius: 14px; overflow-x: auto; font-size: 0.9rem;">&lt;a class="card" href="./project-3.html" target="_blank"&gt;
+  &lt;h3&gt;My Awesome Game&lt;/h3&gt;
+&lt;/a&gt;</pre>
+      </div>
+
+      <!-- ===================================================================
+           HOW TO ADD A NEW PROJECT IN GITHUB:
+           Just copy ANY <a class="card">...</a> block below and paste it right
+           underneath! It automatically gets colors, stickers, and hover FX!
+           =================================================================== -->
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- COPY FROM HERE... -->
+        <a class="card" href="./project-1.html" target="_blank">
+          <h3>Project Title</h3>
+        </a>
+        <!-- ...TO HERE! -->
+
+        <a class="card" href="./project-2.html" target="_blank">
+          <h3>Second Project</h3>
+        </a>
+
+        <a class="card" href="#ela-section">
+          <h3>ELA Cheat-Code: The Anthropocene Reviewed</h3>
+        </a>
+
+        <a class="card" href="./project-4.html" target="_blank">
+          <h3>Future Secret Game</h3>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 2: MIND-BLOWING ELA TOOL — THE ANTHROPOCENE REVIEWED
+         ===================================================================== -->
+    <section id="ela-section" class="ela-lab">
+      <div class="ela-banner">
+        <div>
+          <h2>📚 ELA SURVIVAL LAB: THE ANTHROPOCENE REVIEWED</h2>
+          <p>By John Green • Zero-Boredom Interactive Study Machine for People Who Hate Reading</p>
+        </div>
+        <div style="background: var(--lime); color: var(--ink); padding: 10px 16px; border-radius: 18px; border: 3px solid #fff; font-family: 'Bungee', cursive; font-size: 0.9rem;">
+          BOOK RATING: ★★★★★
+        </div>
+      </div>
+
+      <!-- Interactive Mode Tabs -->
+      <div class="ela-tabs" role="tablist">
+        <button type="button" class="ela-tab active" data-tab="tab-plot">🗺️ "No-Reading" Plot Map</button>
+        <button type="button" class="ela-tab" data-tab="tab-essays">⭐ Top 10 Essays &amp; Ratings</button>
+        <button type="button" class="ela-tab" data-tab="tab-themes">🧠 Themes &amp; Essay Quotes</button>
+        <button type="button" class="ela-tab" data-tab="tab-chat">💬 Chat With Characters (AI)</button>
+        <button type="button" class="ela-tab" data-tab="tab-quiz">⚡ 60-Sec ELA Boss Quiz</button>
+      </div>
+
+      <!-- TAB 1: PLOT & STRUCTURE MAP -->
+      <div id="tab-plot" class="tab-panel active">
+        <div style="background: #fff3b0; border: 3px solid var(--ink); border-radius: 20px; padding: 16px; margin-bottom: 18px;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 6px;">🚨 SECRET CHEAT CODE FOR CLASS: There is NO traditional plot!</h3>
+          <p style="font-size: 1.05rem; line-height: 1.5;">
+            If your teacher asks "What happens in the book?", say this: <strong>"It's a collection of 44 personal essays where John Green reviews random parts of our human-centered planet (the Anthropocene) on a 5-star scale—like Diet Dr Pepper, Canada Geese, and Halley's Comet—to figure out how to stay hopeful in a scary world."</strong>
+          </p>
+        </div>
+
+        <h3 style="font-family: 'Bungee', cursive; font-size: 1.2rem; margin-bottom: 10px;">🎢 THE 4-STAGE EMOTIONAL ROLLERCOASTER OF THE BOOK:</h3>
+        <div class="arc-grid">
+          <div class="arc-step">
+            <span class="step-num">STAGE 1: WEIRD WONDER</span>
+            <h4 style="font-size: 1.15rem; margin-bottom: 6px;">"Wait, humans made WHAT?!"</h4>
+            <p>Starts funny and nerdy. John reviews Halley's Comet, Scratch 'n' Sniff stickers, and Diet Dr Pepper. Shows how weird and cool human inventions and curiosity are.</p>
+          </div>
+          <div class="arc-step">
+            <span class="step-num">STAGE 2: HUMAN CHAOS</span>
+            <h4 style="font-size: 1.15rem; margin-bottom: 6px;">"We kinda broke the planet..."</h4>
+            <p>Explores the <strong>Anthropocene</strong> (the current age where humans control Earth's climate and ecosystems). Features aggressive Canada Geese thriving in office parks and the danger of nuclear weapons.</p>
+          </div>
+          <div class="arc-step">
+            <span class="step-num">STAGE 3: PAIN &amp; HONESTY</span>
+            <h4 style="font-size: 1.15rem; margin-bottom: 6px;">"Being human hurts sometimes"</h4>
+            <p>Gets real about John's OCD, anxiety, getting viral meningitis (1 star!), and loneliness during the COVID-19 pandemic. Key lesson: pretending you're invincible is a lie.</p>
+          </div>
+          <div class="arc-step">
+            <span class="step-num">STAGE 4: RADICAL HOPE</span>
+            <h4 style="font-size: 1.15rem; margin-bottom: 6px;">"Falling in love with the world"</h4>
+            <p>Ends with <em>Auld Lang Syne</em> and <em>You'll Never Walk Alone</em> (both 5 stars!). Even though life is messy and temporary, paying attention and caring about each other makes it worth it.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: TOP 10 ESSAYS EXPLORER -->
+      <div id="tab-essays" class="tab-panel">
+        <p style="font-size: 1.05rem; margin-bottom: 16px; font-weight: 600;">
+          Don't read all 44 essays! Memorize these <strong>10 VIP essays</strong> and you can answer literally any question your ELA teacher throws at you. Click the stars to give your own rating!
+        </p>
+        <div class="essay-grid" id="essayGrid"></div>
+      </div>
+
+      <!-- TAB 3: THEMES & TEACHER-IMPRESSING QUOTES -->
+      <div id="tab-themes" class="tab-panel">
+        <p style="font-size: 1.05rem; margin-bottom: 16px; font-weight: 600;">
+          Need to write a paragraph or speak up in class? Pick a theme below and click <strong>"Copy Quote"</strong> to grab exact text evidence!
+        </p>
+        <div id="themesContainer"></div>
+      </div>
+
+      <!-- TAB 4: AI CHARACTER CHAT -->
+      <div id="tab-chat" class="tab-panel">
+        <div class="chat-layout">
+          <!-- Character Picker -->
+          <div class="char-list" id="charList">
+            <button type="button" class="char-btn selected" data-char="john">
+              <div style="font-size: 1.15rem; font-weight: 700;">🤓 John Green</div>
+              <div style="font-size: 0.88rem; opacity: 0.85;">The Author • Nerdy, anxious, rates everything out of 5 stars</div>
+            </button>
+            <button type="button" class="char-btn" data-char="goose">
+              <div style="font-size: 1.15rem; font-weight: 700;">🪿 Angry Canada Goose</div>
+              <div style="font-size: 0.88rem; opacity: 0.85;">2-Star Menace • Hisses at humans, owns every corporate pond</div>
+            </button>
+            <button type="button" class="char-btn" data-char="comet">
+              <div style="font-size: 1.15rem; font-weight: 700;">☄️ Halley's Comet</div>
+              <div style="font-size: 0.88rem; opacity: 0.85;">4.5 Stars • Visits Earth every 75 years, roasts human history</div>
+            </button>
+            <button type="button" class="char-btn" data-char="kids">
+              <div style="font-size: 1.15rem; font-weight: 700;">👧 Henry &amp; Alice</div>
+              <div style="font-size: 0.88rem; opacity: 0.85;">John's Kids • Ask chaotic questions &amp; keep him grounded</div>
+            </button>
+            <button type="button" class="char-btn" data-char="amy">
+              <div style="font-size: 1.15rem; font-weight: 700;">🎨 Amy Green</div>
+              <div style="font-size: 0.88rem; opacity: 0.85;">John's Wife • Art curator, witty, voice of common sense</div>
+            </button>
+          </div>
+
+          <!-- Chat Box -->
+          <div class="chat-window">
+            <div class="chat-top">
+              <div>
+                <strong id="activeCharName" style="font-size: 1.15rem;">🤓 John Green</strong>
+                <span id="activeCharTag" style="font-size: 0.85rem; display: block; color: var(--mint);">Author &amp; Overthinker-in-Chief</span>
+              </div>
+              <button type="button" id="btnClearChat" style="background: var(--pink); color: #fff; border: 2px solid #fff; border-radius: 12px; padding: 5px 10px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer;">
+                Reset Chat
+              </button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages"></div>
+
+            <!-- 1-Tap Question Chips for Zero-Effort Studying -->
+            <div class="quick-prompts">
+              <button type="button" class="chip-btn" data-q="Explain this whole book to me in 3 super simple sentences.">⚡ 3-Sentence Summary</button>
+              <button type="button" class="chip-btn" data-q="What is the #1 theme my ELA teacher will definitely put on a test?">🎯 Test Theme Cheat</button>
+              <button type="button" class="chip-btn" data-q="Give me a cool thesis statement I can use for an essay on this book!">📝 Essay Thesis Idea</button>
+              <button type="button" class="chip-btn" data-q="Why did Canada Geese only get 2 stars?!">🪿 Why 2 Stars for Geese?</button>
+            </div>
+
+            <form class="chat-input-row" id="chatForm">
+              <input type="text" id="chatInput" class="chat-input" placeholder="Ask anything about the book, themes, or homework..." autocomplete="off" />
+              <button type="submit" class="send-btn">SEND ⚡</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: 60-SECOND ELA BOSS QUIZ -->
+      <div id="tab-quiz" class="tab-panel">
+        <div id="quizBox" style="background: #f5f0ff; border: 4px solid var(--ink); border-radius: 26px; padding: 24px; box-shadow: 6px 6px 0 var(--ink);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <span id="quizProgress" style="font-family: 'Bungee', cursive; background: var(--lime); padding: 6px 14px; border: 3px solid var(--ink); border-radius: 14px;">QUESTION 1 / 5</span>
+            <span id="quizScore" style="font-family: 'Bungee', cursive; background: var(--pink); color: #fff; padding: 6px 14px; border: 3px solid var(--ink); border-radius: 14px;">SCORE: 0</span>
+          </div>
+          <h3 id="quizQuestion" style="font-size: 1.35rem; margin-bottom: 18px;">Loading question...</h3>
+          <div id="quizOptions"></div>
+          <div id="quizFeedback" style="font-weight: 700; font-size: 1.05rem; margin-top: 12px; min-height: 28px;"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =====================================================================
+       1. SOUND EFFECTS ENGINE (TONE.JS - THUNDER & ARCADE POPS)
+       ===================================================================== */
+    let soundEnabled = false;
+    let thunderNoise = null;
+    let clickSynth = null;
+
+    async function initAudio() {
+      if (typeof Tone === 'undefined') return;
+      await Tone.start();
+      if (!thunderNoise) {
+        const filter = new Tone.Filter(180, "lowpass").toDestination();
+        thunderNoise = new Tone.NoiseSynth({
+          noise: { type: "brown" },
+          envelope: { attack: 0.05, decay: 0.9, sustain: 0.1, release: 1.2 }
+        }).connect(filter);
+      }
+      if (!clickSynth) {
+        clickSynth = new Tone.Synth({
+          oscillator: { type: "triangle" },
+          envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
+        }).toDestination();
+      }
+    }
+
+    function playPop(note = "C5") {
+      if (!soundEnabled || !clickSynth) return;
+      try { clickSynth.triggerAttackRelease(note, "16n"); } catch (e) {}
+    }
+
+    function playThunderSound() {
+      if (!soundEnabled || !thunderNoise) return;
+      try { thunderNoise.triggerAttackRelease("1.4"); } catch (e) {}
+    }
+
+    /* =====================================================================
+       2. CUSTOM TOAST & SAFE CLIPBOARD COPY
+       ===================================================================== */
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
+    }
+
+    function copyTextSafely(text, label = "COPIED TO CLIPBOARD! ⚡") {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      temp.style.position = 'fixed';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand('copy');
+        showToast(label);
+        playPop("G5");
+      } catch (err) {
+        showToast("SELECT & COPY THE BOX TEXT!");
+      }
+      document.body.removeChild(temp);
+    }
+
+    /* =====================================================================
+       3. ROAMING CORNER LAVA + THUNDER BOLTS CANVAS ENGINE
+       ===================================================================== */
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    const flashEl = document.getElementById('lightning-flash');
+
+    let lavaActive = true;
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Lava blobs anchored around the 4 corners, roaming organically
+    const lavaPalette = ['#8b16e9', '#ee117b', '#af12ed', '#9eca35', '#10ef83'];
+    const lavaBlobs = [];
+    const corners = [
+      { cx: 0, cy: 0 },
+      { cx: 1, cy: 0 },
+      { cx: 0, cy: 1 },
+      { cx: 1, cy: 1 }
+    ];
+
+    corners.forEach((corner, cIdx) => {
+      for (let i = 0; i < 4; i++) {
+        lavaBlobs.push({
+          cornerX: corner.cx,
+          cornerY: corner.cy,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.012 + Math.random() * 0.015,
+          baseRadius: 42 + Math.random() * 48,
+          reachX: 35 + Math.random() * 95,
+          reachY: 35 + Math.random() * 95,
+          color: lavaPalette[(cIdx + i) % lavaPalette.length],
+          coreColor: lavaPalette[(cIdx + i + 2) % lavaPalette.length]
+        });
+      }
+    });
+
+    // Active lightning bolts array
+    let bolts = [];
+
+    function spawnLightning(targetX = null, targetY = null) {
+      // Pick one of the 4 corners as the origin
+      const startCorners = [
+        { x: 10, y: 10 },
+        { x: width - 10, y: 10 },
+        { x: 10, y: height - 10 },
+        { x: width - 10, y: height - 10 }
+      ];
+      const start = startCorners[Math.floor(Math.random() * startCorners.length)];
+      const endX = targetX !== null ? targetX : (width * 0.2 + Math.random() * width * 0.6);
+      const endY = targetY !== null ? targetY : (height * 0.15 + Math.random() * height * 0.65);
+
+      const segments = [];
+      const steps = 14;
+      let currX = start.x;
+      let currY = start.y;
+
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        const nextX = start.x + (endX - start.x) * t + (i === steps ? 0 : (Math.random() - 0.5) * 90);
+        const nextY = start.y + (endY - start.y) * t + (i === steps ? 0 : (Math.random() - 0.5) * 90);
+        segments.push({ x1: currX, y1: currY, x2: nextX, y2: nextY });
+        currX = nextX;
+        currY = nextY;
+      }
+
+      bolts.push({
+        segments,
+        life: 1.0,
+        color: Math.random() > 0.5 ? '#10ef83' : '#9eca35',
+        glow: Math.random() > 0.5 ? '#af12ed' : '#ee117b'
+      });
+
+      // Screen flash + thunder sound
+      flashEl.style.opacity = '0.65';
+      setTimeout(() => { flashEl.style.opacity = '0'; }, 90);
+      playThunderSound();
+    }
+
+    // Occasional automatic ambient corner thunder
+    setInterval(() => {
+      if (lavaActive && Math.random() < 0.45) {
+        spawnLightning();
+      }
+    }, 5500);
+
+    function animateFX() {
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Draw Roaming Corner Lava
+      if (lavaActive) {
+        lavaBlobs.forEach((b) => {
+          b.phase += b.speed;
+          const anchorX = b.cornerX === 0 ? 0 : width;
+          const anchorY = b.cornerY === 0 ? 0 : height;
+          const dirX = b.cornerX === 0 ? 1 : -1;
+          const dirY = b.cornerY === 0 ? 1 : -1;
+
+          const x = anchorX + dirX * (Math.abs(Math.sin(b.phase)) * b.reachX);
+          const y = anchorY + dirY * (Math.abs(Math.cos(b.phase * 0.85)) * b.reachY);
+          const r = b.baseRadius + Math.sin(b.phase * 1.7) * 14;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(18, r), 0, Math.PI * 2);
+          ctx.fillStyle = b.color;
+          ctx.globalAlpha = 0.82;
+          ctx.fill();
+
+          // Chunky cartoon outline around lava blob
+          ctx.lineWidth = 3.5;
+          ctx.strokeStyle = '#14101d';
+          ctx.stroke();
+
+          // Glowing inner lava bubble
+          ctx.beginPath();
+          ctx.arc(x - dirX * 8, y - dirY * 8, Math.max(8, r * 0.42), 0, Math.PI * 2);
+          ctx.fillStyle = b.coreColor;
+          ctx.fill();
+          ctx.restore();
+        });
+      }
+
+      // 2. Draw Thunder / Lightning Bolts
+      bolts = bolts.filter((bolt) => bolt.life > 0);
+      bolts.forEach((bolt) => {
+        ctx.save();
+        ctx.globalAlpha = bolt.life;
+        ctx.lineCap = 'round';
+
+        // Outer neon glow
+        ctx.strokeStyle = bolt.glow;
+        ctx.lineWidth = 10 * bolt.life;
+        ctx.beginPath();
+        bolt.segments.forEach((s) => {
+          ctx.moveTo(s.x1, s.y1);
+          ctx.lineTo(s.x2, s.y2);
+        });
+        ctx.stroke();
+
+        // Inner electric core
+        ctx.strokeStyle = bolt.color;
+        ctx.lineWidth = 4 * bolt.life;
+        ctx.stroke();
+
+        // White hot center
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.8 * bolt.life;
+        ctx.stroke();
+        ctx.restore();
+
+        bolt.life -= 0.055;
+      });
+
+      requestAnimationFrame(animateFX);
+    }
+
+    window.addEventListener('load', () => {
+      animateFX();
+      setTimeout(() => spawnLightning(), 600);
+    });
+
+    /* =====================================================================
+       4. HOT BAR & CARD CODE GENERATOR CONTROLS
+       ===================================================================== */
+    document.getElementById('btnZapThunder').addEventListener('click', () => {
+      spawnLightning();
+      spawnLightning();
+    });
+
+    document.getElementById('btnToggleLava').addEventListener('click', (e) => {
+      lavaActive = !lavaActive;
+      e.target.textContent = lavaActive ? '🌋 Corner Lava: ON' : '🌋 Corner Lava: OFF';
+      playPop("E5");
+    });
+
+    document.getElementById('btnToggleSound').addEventListener('click', async (e) => {
+      await initAudio();
+      soundEnabled = !soundEnabled;
+      e.target.textContent = soundEnabled ? '🔊 Sound FX: ON' : '🔇 Sound FX: OFF';
+      if (soundEnabled) playPop("A5");
+    });
+
+    // Card Code Generator Helper
+    const genBox = document.getElementById('cardGeneratorBox');
+    const genTitle = document.getElementById('genTitle');
+    const genHref = document.getElementById('genHref');
+    const snippetPreview = document.getElementById('snippetPreview');
+
+    document.getElementById('btnToggleGenerator').addEventListener('click', () => {
+      genBox.classList.toggle('open');
+      playPop("D5");
+    });
+
+    function updateSnippet() {
+      const safeTitle = genTitle.value.trim() || "Project Title";
+      const safeHref = genHref.value.trim() || "./project-3.html";
+      snippetPreview.textContent = `<a class="card" href="${safeHref}" target="_blank">\n  <h3>${safeTitle}</h3>\n</a>`;
+    }
+
+    genTitle.addEventListener('input', updateSnippet);
+    genHref.addEventListener('input', updateSnippet);
+
+    document.getElementById('btnCopySnippet').addEventListener('click', () => {
+      copyTextSafely(snippetPreview.textContent, "CARD HTML COPIED! PASTE IT IN GITHUB! 🚀");
+    });
+
+    /* =====================================================================
+       5. ELA LAB DATA: ESSAYS, THEMES, CHARACTERS, QUIZ
+       ===================================================================== */
+    const vipEssays = [
+      {
+        title: "Canada Geese",
+        johnStars: "★★☆☆☆ (2 Stars)",
+        summary: "Humans wiped out geese in the 1900s, then accidentally built suburban lawns and retention ponds that turned geese into fearless, hissing parking-lot bullies.",
+        elaTakeaway: "Shows how human choices reshape nature in ways we never planned."
+      },
+      {
+        title: "Halley's Comet",
+        johnStars: "★★★★½ (4.5 Stars)",
+        summary: "Mark Twain was born and died with Halley's Comet. Humans went from fearing comets as bad omens to landing spacecraft on them.",
+        elaTakeaway: "Celebrates human curiosity, science, and how tiny we are in cosmic time."
+      },
+      {
+        title: "Diet Dr Pepper",
+        johnStars: "★★★★☆ (4 Stars)",
+        summary: "An artificial, sweet, weird soda invented by humans that tastes like nothing in nature—yet brings huge comfort during stressful days.",
+        elaTakeaway: "Even 'fake' or ordinary things can hold real emotional comfort and memory."
+      },
+      {
+        title: "Viral Meningitis",
+        johnStars: "★☆☆☆☆ (1 Star)",
+        summary: "John gets hospitalized with excruciating head pain. He realizes healthy people live in a fantasy where they think sickness only happens to 'other people.'",
+        elaTakeaway: "Vulnerability connects all humans; empathy means caring before tragedy hits you."
+      },
+      {
+        title: "You'll Never Walk Alone",
+        johnStars: "★★★★★ (5 Stars)",
+        summary: "A showtune that became Liverpool FC's anthem—sung through triumphs and terrible stadium tragedies alike.",
+        elaTakeaway: "Collective art and community help humans survive unbearable grief."
+      },
+      {
+        title: "Auld Lang Syne",
+        johnStars: "★★★★★ (5 Stars)",
+        summary: "The New Year's Eve song nobody knows the words to, which literally asks if we should forget old friends—and answers NO.",
+        elaTakeaway: "Memory and honoring people we've lost is what keeps love alive."
+      },
+      {
+        title: "Scratch 'n' Sniff Stickers",
+        johnStars: "★★★★☆ (4 Stars)",
+        summary: "Micro-encapsulated fake scents from 1980s childhoods that still smell like grape or pizza decades later.",
+        elaTakeaway: "Sensory details unlock nostalgia and remind us who we used to be."
+      },
+      {
+        title: "The Internet",
+        johnStars: "★★★☆☆ (3 Stars)",
+        summary: "Gives us all of human knowledge in our pockets, yet traps us in outrage algorithms and misinformation.",
+        elaTakeaway: "Human technology amplifies both our best kindness and our worst habits."
+      },
+      {
+        title: "Sycamore Trees",
+        johnStars: "★★★★½ (4.5 Stars)",
+        summary: "Peeling-bark trees growing along creeks in Indianapolis that outlive humans and quietly witness centuries of history.",
+        elaTakeaway: "Paying close attention to nature pulls us out of anxiety spirals."
+      },
+      {
+        title: "Three Farmers on Their Way to a Dance",
+        johnStars: "★★★★½ (4.5 Stars)",
+        summary: "A famous 1914 photo of three young German men walking to a party, unaware World War I is about to change everything.",
+        elaTakeaway: "Reminds us that people in history felt just as alive and uncertain about the future as we do."
+      }
+    ];
+
+    const coreThemes = [
+      {
+        name: "1. Paying Attention is a Form of Love",
+        explain: "John argues that boredom and cynicism happen when we stop noticing the world. Looking closely at a sycamore tree, a painting, or a soda is how we fall in love with being alive.",
+        quote: "“We all know how loving ends. But I want to fall in love with the world anyway, to let it crack me open.”"
+      },
+      {
+        name: "2. The Anthropocene: Humans Are Both Creators & Destroyers",
+        explain: "We are the first species powerful enough to alter Earth's climate and mass-produce plastic—yet we also make symphonies, vaccines, and space probes.",
+        quote: "“The Anthropocene is a weird time to be alive, because we are both too powerful and not powerful enough.”"
+      },
+      {
+        name: "3. Vulnerability & Mental Health Are Universal",
+        explain: "John openly shares his struggles with OCD, anxiety, and illness. Pretending we are invulnerable makes us selfish; admitting weakness makes us compassionate.",
+        quote: "“Pain is not a competition, and you do not have to earn your suffering.”"
+      },
+      {
+        name: "4. Hope vs. Blind Optimism",
+        explain: "Optimism says 'everything will magically be fine.' Hope says 'things might be rough, but caring and helping each other still matters.'",
+        quote: "“I give the Anthropocene three stars—it has huge problems, and huge potential.”"
+      }
+    ];
+
+    // Render VIP Essays
+    const essayGrid = document.getElementById('essayGrid');
+    vipEssays.forEach((essay, idx) => {
+      const card = document.createElement('div');
+      card.className = 'essay-card';
+      card.innerHTML = `
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px;">
+            <h4 style="font-size:1.15rem; font-weight:700;">${essay.title}</h4>
+          </div>
+          <span class="star-badge">John's Rating: ${essay.johnStars}</span>
+          <p style="margin-top:10px; font-size:0.95rem; line-height:1.4;">${essay.summary}</p>
+          <p style="margin-top:8px; font-size:0.9rem; background:#f3e8ff; padding:8px 10px; border-radius:12px;">
+            <strong>🎯 Class Point:</strong> ${essay.elaTakeaway}
+          </p>
+        </div>
+        <div class="user-rate-row" data-essay="${idx}">
+          <span>Your Rating:</span>
+          ${[1, 2, 3, 4, 5].map(s => `<button type="button" class="rate-star-btn" data-val="${s}" title="Rate ${s} stars">☆</button>`).join('')}
+        </div>
+      `;
+      essayGrid.appendChild(card);
+    });
+
+    // Interactive User Star Rating inside Essay Cards
+    essayGrid.addEventListener('click', (e) => {
+      if (e.target.classList.contains('rate-star-btn')) {
+        const val = parseInt(e.target.dataset.val, 10);
+        const row = e.target.parentElement;
+        const buttons = row.querySelectorAll('.rate-star-btn');
+        buttons.forEach((btn, i) => {
+          btn.textContent = i < val ? '⭐' : '☆';
+        });
+        playPop("E5");
+        showToast(`YOU RATED IT ${val}/5 STARS! ⭐`);
+      }
+    });
+
+    // Render Themes & Quotes
+    const themesContainer = document.getElementById('themesContainer');
+    coreThemes.forEach((t) => {
+      const div = document.createElement('div');
+      div.className = 'theme-card';
+      div.innerHTML = `
+        <h3 style="font-size:1.2rem; color: var(--purple); margin-bottom:6px;">${t.name}</h3>
+        <p style="font-size:1rem; line-height:1.45;">${t.explain}</p>
+        <div class="quote-box">
+          <span>${t.quote}</span>
+          <button type="button" class="hotbar-btn hb-projects copy-quote-btn" style="font-size:0.82rem; padding:6px 12px;">📋 Copy Quote</button>
+        </div>
+      `;
+      div.querySelector('.copy-quote-btn').addEventListener('click', () => {
+        copyTextSafely(t.quote, "QUOTE COPIED FOR YOUR ESSAY! 📝");
+      });
+      themesContainer.appendChild(div);
+    });
+
+    // ELA Lab Tab Switching
+    document.querySelectorAll('.ela-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.ela-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+        playPop("F5");
+      });
+    });
+
+    /* =====================================================================
+       6. LIVE CHARACTER CHAT (GEMINI API + SMART FALLBACK)
+       ===================================================================== */
+    const characters = {
+      john: {
+        name: "🤓 John Green",
+        tag: "Author & Overthinker-in-Chief",
+        greeting: "Hey! I'm John Green. Look, I totally get it if reading feels like a chore—that's why I wrote short essays about Diet Dr Pepper, Canada Geese, and comets! Ask me anything for your ELA class and I'll rate your question out of 5 stars.",
+        systemPrompt: "You are John Green, author of 'The Anthropocene Reviewed'. Speak warmly, nerdy, encouragingly, and concisely to a student who hates reading and needs clear help understanding your book for ELA class. Keep answers under 4 short sentences, include fun facts from your book, and end with a playful 5-star rating of something relevant."
+      },
+      goose: {
+        name: "🪿 Angry Canada Goose",
+        tag: "2-Star Menace of Suburban Office Parks",
+        greeting: "HSSSSSS! 🪿 John Green only gave me TWO STARS?! Unbelievable! Humans cut down forests, built cozy retention ponds and mowed grass just for us, and now you complain when I chase joggers? Ask me about my role in the book!",
+        systemPrompt: "You are an arrogant, hilarious Canada Goose from John Green's essay 'Canada Geese' in 'The Anthropocene Reviewed'. Hiss occasionally, brag about how humans accidentally created goose paradise with suburban lawns, and clearly explain the book's theme of unintended human ecological impact in 3-4 funny sentences."
+      },
+      comet: {
+        name: "☄️ Halley's Comet",
+        tag: "4.5-Star Space Traveler (Back in 2061!)",
+        greeting: "Whoosh! ☄️ I swing by Earth every 75 years. Last time I saw Mark Twain; next time I'll see you in 2061! Ask me what John Green says about human curiosity, time, and wonder.",
+        systemPrompt: "You are Halley's Comet from 'The Anthropocene Reviewed'. Speak like a dramatic cosmic traveler who visits Earth every 75-76 years. Explain John Green's themes of human wonder, scientific progress, and cosmic perspective in 3-4 vivid, student-friendly sentences."
+      },
+      kids: {
+        name: "👧 Henry & Alice",
+        tag: "John's Kids • Chaos & Curiosity Experts",
+        greeting: "Hi!! We're Henry and Alice! Dad is ALWAYS staring at sycamore trees or talking about weird old songs. Ask us what Dad is actually trying to teach you in this book!",
+        systemPrompt: "You are Henry and Alice, John Green's kids who appear in 'The Anthropocene Reviewed'. Speak playfully, like smart kids explaining their dad's big philosophical ideas (paying attention, hope, loving the world) in super easy, relatable language in 3-4 sentences."
+      },
+      amy: {
+        name: "🎨 Amy Green",
+        tag: "Art Curator & Voice of Reason",
+        greeting: "Hi there! I'm Amy—John's wife. Whenever John spirals about germs or 1914 photographs, I remind him to look at art and stay grounded. Need help decoding his themes or essay ideas?",
+        systemPrompt: "You are Amy Green, John Green's wife and an art curator mentioned throughout 'The Anthropocene Reviewed'. Be warm, witty, and insightful, helping a student understand how art, attention, and human connection anchor John's essays. Keep it to 3-4 clear sentences."
+      }
+    };
+
+    let currentCharKey = 'john';
+    const chatMessages = document.getElementById('chatMessages');
+    const activeCharName = document.getElementById('activeCharName');
+    const activeCharTag = document.getElementById('activeCharTag');
+
+    function appendMessage(text, sender = 'bot') {
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return div;
+    }
+
+    function loadCharacter(key) {
+      currentCharKey = key;
+      const char = characters[key];
+      activeCharName.textContent = char.name;
+      activeCharTag.textContent = char.tag;
+      chatMessages.innerHTML = '';
+      appendMessage(char.greeting, 'bot');
+    }
+
+    // Initialize default character
+    loadCharacter('john');
+
+    document.getElementById('charList').addEventListener('click', (e) => {
+      const btn = e.target.closest('.char-btn');
+      if (!btn) return;
+      document.querySelectorAll('.char-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      loadCharacter(btn.dataset.char);
+      playPop("G5");
+    });
+
+    document.getElementById('btnClearChat').addEventListener('click', () => {
+      loadCharacter(currentCharKey);
+      playPop("C5");
+    });
+
+    // Offline / Fallback Smart Brain so chat NEVER fails even without internet/API key
+    function getOfflineSmartReply(charKey, question) {
+      const q = question.toLowerCase();
+      if (q.includes('summary') || q.includes('3') || q.includes('sentence')) {
+        return "Here's the cheat-code summary: 1) Instead of a normal story, John Green writes 44 short essays rating real things—like Diet Dr Pepper, Canada Geese, and viral meningitis—out of 5 stars. 2) The book explores the 'Anthropocene,' our current era where humans have massive power over planet Earth. 3) Its big message is that even though life has pain and uncertainty, paying close attention and caring about each other gives us hope. (5/5 stars!)";
+      }
+      if (q.includes('theme') || q.includes('test')) {
+        return "Put this on your test: The #1 theme is 'Paying attention is a form of love.' John shows that when we really notice everyday things—like sycamore trees or an old song—we overcome cynicism and feel connected to humanity. Also mention 'Hope vs. Optimism'!";
+      }
+      if (q.includes('thesis') || q.includes('essay')) {
+        return "Try this A+ thesis statement: 'In The Anthropocene Reviewed, John Green uses five-star reviews of ordinary human experiences to argue that honest vulnerability and paying attention to the world are essential to finding hope in an uncertain era.'";
+      }
+      if (q.includes('geese') || q.includes('goose') || q.includes('2 star')) {
+        return "HSSS! 🪿 John gave Canada Geese 2 stars because we hiss at humans and poop on soccer fields—even though HUMANS caused it by building manicured lawns and retention ponds! Classic Anthropocene irony: you reshaped the ecosystem and accidentally made us unstoppable!";
+      }
+      return `${characters[charKey].name.split(' ')[1]} here! The biggest takeaway in The Anthropocene Reviewed is that humans are messy, vulnerable, and powerful all at once—and rating everyday things out of 5 stars helps us appreciate being alive right now. I give your curiosity 5 out of 5 stars! ⭐`;
+    }
+
+    // Gemini API Call with Exponential Backoff
+    async function askCharacterAI(userText) {
+      const char = characters[currentCharKey];
+      const thinkingBubble = appendMessage("Thinking... ⚡", 'bot');
+
+      const apiKey = ""; // Canvas provides runtime key automatically when empty
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: userText }] }],
+        systemInstruction: {
+          parts: [{ text: char.systemPrompt }]
+        }
+      };
+
+      let replyText = null;
+      const delays = [1000, 2000, 4000];
+
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const res = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error("API status " + res.status);
+          const data = await res.json();
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
+            replyText = text;
+            break;
+          }
+        } catch (err) {
+          if (attempt < delays.length) {
+            await new Promise(r => setTimeout(r, delays[attempt]));
+          }
+        }
+      }
+
+      if (!replyText) {
+        replyText = getOfflineSmartReply(currentCharKey, userText);
+      }
+
+      thinkingBubble.textContent = replyText;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      playPop("A5");
+    }
+
+    document.getElementById('chatForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      appendMessage(text, 'user');
+      input.value = '';
+      playPop("D5");
+      askCharacterAI(text);
+    });
+
+    document.querySelectorAll('.chip-btn').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const q = chip.dataset.q;
+        appendMessage(q, 'user');
+        playPop("D5");
+        askCharacterAI(q);
+      });
+    });
+
+    /* =====================================================================
+       7. 60-SECOND ELA BOSS QUIZ ENGINE
+       ===================================================================== */
+    const quizData = [
+      {
+        q: "1. What does the word 'Anthropocene' actually mean?",
+        options: [
+          "A) A type of rare dinosaur discovered in Indiana",
+          "B) The current geological age where humans heavily impact Earth's climate & environment",
+          "C) A 5-star soda flavor invented in 1985"
+        ],
+        answer: 1,
+        explain: "Spot on! 'Anthro-' means human. It's the era where humans became the biggest force shaping the planet."
+      },
+      {
+        q: "2. How is The Anthropocene Reviewed structured?",
+        options: [
+          "A) A fantasy novel about wizards fighting geese",
+          "B) 44 personal non-fiction essays reviewing facets of human life on a 5-star scale",
+          "C) A biography of Mark Twain only"
+        ],
+        answer: 1,
+        explain: "Nailed it! Mentioning '44 personal essays on a 5-star scale' is an instant ELA flex."
+      },
+      {
+        q: "3. Why did John Green give Canada Geese only 2 stars?",
+        options: [
+          "A) They are extinct",
+          "B) Humans accidentally built them suburban paradise, and now they aggressively rule parking lots",
+          "C) They stole his Diet Dr Pepper"
+        ],
+        answer: 1,
+        explain: "Yes! It's his funny example of unintended consequences in the Anthropocene."
+      },
+      {
+        q: "4. What did John learn from getting Viral Meningitis (1 star)?",
+        options: [
+          "A) Healthy people fool themselves into thinking they are invincible; vulnerability connects us",
+          "B) Hospitals have amazing food",
+          "C) Comets cause headaches"
+        ],
+        answer: 0,
+        explain: "Boom! Vulnerability and empathy for others in pain is a huge theme in the book."
+      },
+      {
+        q: "5. What is John Green's ultimate message at the end of the book?",
+        options: [
+          "A) Give up because the planet is doomed",
+          "B) Paying close attention to the world and caring for others lets us fall in love with life anyway",
+          "C) Only rate things 1 star so you're never disappointed"
+        ],
+        answer: 1,
+        explain: "5/5 STARS! You are officially ready to crush ELA class! 🏆"
+      }
+    ];
+
+    let qIdx = 0;
+    let score = 0;
+    let answeredCurrent = false;
+
+    const quizProgress = document.getElementById('quizProgress');
+    const quizScore = document.getElementById('quizScore');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizFeedback = document.getElementById('quizFeedback');
+
+    function renderQuiz() {
+      if (qIdx >= quizData.length) {
+        quizProgress.textContent = "COMPLETED! 🏆";
+        quizQuestion.textContent = `YOU SCORED ${score} OUT OF ${quizData.length}!`;
+        quizOptions.innerHTML = `
+          <p style="font-size:1.1rem; margin-bottom:16px;">
+            ${score >= 4 ? "🔥 LEGEND STATUS! You know this book better than kids who read every page!" : "⚡ NICE RUN! Hit replay to lock in a perfect 5/5 score!"}
+          </p>
+          <button type="button" class="send-btn" id="btnRestartQuiz">🔄 PLAY AGAIN</button>
+        `;
+        quizFeedback.textContent = "";
+        spawnLightning();
+        document.getElementById('btnRestartQuiz').addEventListener('click', () => {
+          qIdx = 0;
+          score = 0;
+          quizScore.textContent = "SCORE: 0";
+          renderQuiz();
+        });
+        return;
+      }
+
+      answeredCurrent = false;
+      const item = quizData[qIdx];
+      quizProgress.textContent = `QUESTION ${qIdx + 1} / ${quizData.length}`;
+      quizQuestion.textContent = item.q;
+      quizFeedback.textContent = "";
+      quizOptions.innerHTML = "";
+
+      item.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'quiz-option';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          if (answeredCurrent) return;
+          answeredCurrent = true;
+
+          if (i === item.answer) {
+            score++;
+            quizScore.textContent = `SCORE: ${score}`;
+            btn.style.background = 'var(--lime)';
+            quizFeedback.style.color = '#0b874b';
+            quizFeedback.textContent = "✅ " + item.explain;
+            spawnLightning();
+            playPop("G5");
+          } else {
+            btn.style.background = 'var(--pink)';
+            btn.style.color = '#fff';
+            quizFeedback.style.color = '#b80d5e';
+            quizFeedback.textContent = "❌ Close! " + item.explain;
+            playPop("C4");
+          }
+
+          setTimeout(() => {
+            qIdx++;
+            renderQuiz();
+          }, 1900);
+        });
+        quizOptions.appendChild(btn);
+      });
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
